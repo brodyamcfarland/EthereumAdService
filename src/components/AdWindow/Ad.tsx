@@ -10,8 +10,6 @@ interface Props {
   setAccount: React.Dispatch<React.SetStateAction<string>>;
   adName: string;
   setAdName: React.Dispatch<React.SetStateAction<string>>;
-  adURI: string;
-  setAdURI: React.Dispatch<React.SetStateAction<string>>;
   hyperlink: string;
   setHyperlink: React.Dispatch<React.SetStateAction<string>>;
   contract: ethers.Contract;
@@ -19,7 +17,7 @@ interface Props {
   setFile: React.Dispatch<React.SetStateAction<File | undefined >>;
 };
 
-const Ad = ({account, setAccount, adName, setAdName, adURI, setAdURI, hyperlink, setHyperlink, contract, file, setFile}: Props) => {
+const Ad = ({account, setAccount, adName, setAdName, hyperlink, setHyperlink, contract, file, setFile}: Props) => {
 
   const [isModal, setIsModal] = useState<boolean>(false);
 
@@ -35,8 +33,6 @@ const Ad = ({account, setAccount, adName, setAdName, adURI, setAdURI, hyperlink,
           setAccount={setAccount}
           setAdName={setAdName}
           adName={adName}
-          setAdURI={setAdURI}
-          adURI={adURI}
           setHyperlink={setHyperlink}
           hyperlink={hyperlink}
           contract={contract}

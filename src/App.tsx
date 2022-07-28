@@ -37,7 +37,6 @@ const App = () => {
   const [account, setAccount] = useState<string>('');
   const [adName, setAdName] = useState<string>('');
   const [file, setFile] = useState<File | undefined>();
-  const [adURI, setAdURI] = useState<string>('');
   const [hyperlink, setHyperlink] = useState<string>('');
 
   return (
@@ -50,8 +49,6 @@ const App = () => {
         setAdName={setAdName}
         file={file}
         setFile={setFile}
-        adURI={adURI}
-        setAdURI={setAdURI}
         hyperlink={hyperlink}
         setHyperlink={setHyperlink}
         contract={contract}

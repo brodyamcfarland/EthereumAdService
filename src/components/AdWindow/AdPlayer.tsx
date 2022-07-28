@@ -20,7 +20,7 @@ const AdPlayer = ({contract}: Props) => {
 
   return (
     <div className="border-b-[1px] min-h-[60vh]">
-      <img src={uriFromSC} alt='ad_from_smart_contract' className="object-contain min-h-[60vh]"/>
+      <img src={uriFromSC} alt='ad_from_smart_contract' className="object-contain min-h-[60vh] max-h-[60vh] m-auto"/>
     </div>
   )
 }

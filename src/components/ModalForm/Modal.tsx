@@ -12,8 +12,6 @@ interface Props {
     setAccount: React.Dispatch<React.SetStateAction<string>>;
     adName: string;
     setAdName: React.Dispatch<React.SetStateAction<string>>;
-    adURI: string;
-    setAdURI: React.Dispatch<React.SetStateAction<string>>;
     hyperlink: string;
     setHyperlink: React.Dispatch<React.SetStateAction<string>>;
     contract: ethers.Contract;
@@ -21,7 +19,7 @@ interface Props {
     setFile: React.Dispatch<React.SetStateAction<File | undefined>>;
 }
 
-const Modal = ({setIsModal, account, setAccount, adName, setAdName, adURI, setAdURI, hyperlink, setHyperlink, file, setFile}: Props) => {
+const Modal = ({setIsModal, account, setAccount, adName, setAdName, hyperlink, setHyperlink, file, setFile, contract}: Props) => {
 
     const isConnected = Boolean(account);
     const [error, setError] = useState<boolean>(false);
@@ -45,27 +43,45 @@ const Modal = ({setIsModal, account, setAccount, adName, setAdName, adURI, setAd
 //==================IPFS SUBMISSION==================//
 
     const sendToIPFS = async (e: React.FormEvent<HTMLFormElement>) => {
-        const ipfs = await create({ host: 'ipfs.infura.io', port: 5001, protocol: 'http', timeout: '2m' });
+        const ipfs = await create({ host: 'ipfs.infura.io', port: 5001, protocol: 'http' });
         const { cid } = await ipfs.add({ path: '--only-hash', content: file });
         const cidString = cid.toString();
         console.log("Added File: ", cid.toString())
         setUrlArr(`https://ipfs.io/ipfs/${cidString}`);//<--- CID is now saved to state
     };
-    console.log(urlArr);
     
 //========AD-UPLOAD ---- SMART CONTRACT FUNCTION==========//
     const ABI = ["function receiveAdPayment(string memory _currentAdName, string memory _currentURI, string memory _currentHyperlink) payable public"]
     const smartContractFunction = async () => {
-        console.log(account[0]);
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const contract = new ethers.Contract('0x0c4CF9Cb0fC19512Def68b898d4f5Ed491e94DA8', ABI, provider.getSigner());
-        console.log(contract.interface);
         await contract.receiveAdPayment(adName, urlArr, hyperlink, { value: ethers.utils.parseUnits("0.1", "ether")});
     }
 
     useEffect(() => {
       smartContractFunction();      
     }, [urlArr])
+//==============UPDATES REMAINING TIME LEFT & AD COUNT================//
+        
+    const [timeLeft, setTimeLeft] = useState<number|null>(null);
+    const [adNumber, setAdNumber] = useState<number|null>(null);
+
+    const refreshTimeLeft = async () => {
+        let time = await contract.getTimeLeft();
+        let convertTime = Number(time);
+        setTimeLeft(convertTime);    
+    }
+
+    const refreshAdNumber = async () => {
+        let numberAd = await contract.getRunNumber();
+        let numberAdConvert = Number(numberAd);
+        setAdNumber(numberAdConvert);    
+    }
+
+    useEffect(() => {
+        refreshTimeLeft();
+        refreshAdNumber();
+    }, [])
     
 
   return (
@@ -78,8 +94,9 @@ const Modal = ({setIsModal, account, setAccount, adName, setAdName, adURI, setAd
             </div>
             <div className='p-1 border-b-[1px] border-white'>
                 <p className='text-[13px] flex flex-row text-gray'>Ad Time: <span className='text-[13px] pl-1'>3 Minutes [ demo ]</span> </p>
-                <p className='text-[13px] flex flex-row text-gray'>Remaining Time Left: <span className='text-[13px] pl-1'>3 Minutes</span> </p>
+                <p className='text-[13px] flex flex-row text-gray'>Remaining Time Left: <span className='text-[13px] pl-1'>{timeLeft ? (timeLeft):("0")} seconds</span> </p>
                 <p className='text-[13px] flex flex-row text-gray'>Price Per Ad: <span className='text-[13px] pl-1'>0.1 ETH</span> </p>
+                <p className='text-[13px] flex flex-row text-gray'>Current Ad Run #: <span className='text-[13px] pl-1'>{adNumber}</span> </p>
             </div>
             <form className='flex flex-col p-1'
                   onSubmit={handleSubmit}>
@@ -106,7 +123,7 @@ const Modal = ({setIsModal, account, setAccount, adName, setAdName, adURI, setAd
                 </div>
                 <div className='text-[12px] text-gray'>* File types: .png, .jpeg, .gif</div>
                 <div className='text-[12px] text-gray'>* Recommended resolution: ~530 x 560</div>
-                <div className='text-[12px] text-gray'>Stored on IPFS and referenced by Smart Contract</div>
+                <div className='text-[12px] text-gray'>File may take several minutes to post to Ad Window due to IPFS Discovery</div>
                 <input className='bg-black text-white border-[1px] border-white hover:bg-[#161616] text-[13px] mb-1 flex-grow'
                        type="file"
                        onChange={(e: any) => setFile(e.target.files[0])}/>

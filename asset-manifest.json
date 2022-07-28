@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/EthereumAdService/static/css/main.684a7e14.css",
+    "main.js": "/EthereumAdService/static/js/main.3a1ffa89.js",
+    "static/media/EASLogo.png": "/EthereumAdService/static/media/EASLogo.fc8047e0bf39b151f12c.png",
+    "static/media/EASLogoSimple.png": "/EthereumAdService/static/media/EASLogoSimple.4a5e335fecf34f8d660a.png",
+    "index.html": "/EthereumAdService/index.html",
+    "main.684a7e14.css.map": "/EthereumAdService/static/css/main.684a7e14.css.map",
+    "main.3a1ffa89.js.map": "/EthereumAdService/static/js/main.3a1ffa89.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.684a7e14.css",
+    "static/js/main.3a1ffa89.js"
+  ]
+}

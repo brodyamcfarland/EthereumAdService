@@ -50,9 +50,11 @@ const Modal = ({setIsModal, account, setAccount, adName, setAdName, adURI, setAd
 
     const sendToIPFS = async (e: React.FormEvent<HTMLFormElement>) => {
         const ipfs = await create({ host: 'ipfs.infura.io', port: 5001, protocol: 'http', timeout: '2m' });
-        const fileAdded = await ipfs.add({ path: 'randompath.txt', content: file });
-        const fileHash = fileAdded;
-        console.log(fileHash);       
+        const { cid } = await ipfs.add({ path: '--only-hash', content: file });
+        const cidString = cid.toString();
+        console.log("Added File: ", cid.toString())
+        setUrlArr(cidString);   
+        console.log(urlArr);    
     };
 //===================================================//
     const smartContractFunction = () => {

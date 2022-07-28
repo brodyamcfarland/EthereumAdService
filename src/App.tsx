@@ -24,11 +24,7 @@ const contract = new ethers.Contract(address, ABI, provider);
 
 const main = async () => {
   console.log(`\nSmart Contract Connected: ${address}`);
-  // const getTimeLeft = await contract.getTimeLeft();
-  // let vertTime = Number(getTimeLeft);
-  // console.log(`\nTime Remianing on current Ad: ${vertTime}`);
 };
-
 main();
 //======================================CONTRACT CONNECTION END==========================================================================//
 

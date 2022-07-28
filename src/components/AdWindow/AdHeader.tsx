@@ -28,7 +28,7 @@ const AdHeader = ({contract}: Props) => {
   return (
     <div className="flex flex-row top-[0px] text-center border-b-[1px] p-1 gap-1 items-center">
         <img src={EASLOGOSIMPLE} alt='easlogo-simple' className="max-h-[70px] max-w-[100px] shadow-sm"/>
-        <p className='pl-2 text-[13px] font-light'>Sponsored by: <a href={hyperlinkFromSC} className='pl-1 text-[15px]'>{adNameFromSC}</a></p>
+        <p className='pl-2 text-[13px] font-light'>Sponsored by: <a href={hyperlinkFromSC} target="_blank" rel="noreferrer" className='pl-1 text-[14px] hover:text-gray duration-300'>{adNameFromSC}</a></p>
         <p className=''></p>
     </div>
   )

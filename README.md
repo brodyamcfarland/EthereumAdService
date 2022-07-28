@@ -13,3 +13,6 @@ Smart Contract Address:
 [X] save that CID to State
 [X] once CID is initialized to state, start Smart Contract Function to pay for Ad
 [X] AdPlayer.tsx have a useEffect to start getURI() Smart Contract Function upon Refresh
+[X] HyperLink Functionality
+[X] Testing Clearing State after SC Function
+[X] Have a message pop up saying successful after payed

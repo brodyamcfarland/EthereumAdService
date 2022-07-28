@@ -6,11 +6,11 @@ const Header = () => {
     <>
         <div className='flex flex-col text-center pt-1 items-center'>
             <div className=''>
-                <img src={EASLOGO} alt='eas-logo' className="m-auto max-h-[5rem]"/>
+                <img src={EASLOGO} alt='eas-logo' className="m-auto sm:max-h-[5rem] xsm:max-h-[2rem]"/>
                 <p className="text-[11px] text-gray">On-chain advertisement slots settled in Ethereum</p>
             </div>
         </div>
-        <div className="absolute top-[3rem] right-[1rem] sm:right-1/4 md:right-1/3">
+        <div className="absolute xsm:top-[1rem] sm:top-[3rem] right-[1rem] sm:right-1/4 md:right-1/3">
             <a href="https://github.com/brodyamcfarland" rel="noreferrer" target="_blank" id="Githubbtn"><FaGithub fill='gray' className='scale-150 text-white'/></a>
         </div>
     </>

@@ -1,9 +1,26 @@
+import { ethers } from 'ethers';
+import { useEffect, useState } from 'react';
 
+interface Props {
+  contract: ethers.Contract;
+};
 
-const AdPlayer = () => {
+const AdPlayer = ({contract}: Props) => {
+  //========AD-UPLOAD ---- SMART CONTRACT FUNCTION==========//
+  const [uriFromSC, setUriFromSC] = useState<string>('');
+
+  const playAd = async () => {
+    let scURI = await contract.getURI();
+    setUriFromSC(scURI);    
+  }
+
+  useEffect(() => {
+    playAd();
+  }, [])
+
   return (
     <div className="border-b-[1px] min-h-[60vh]">
-      <img src='' alt='ad_from_smart_contract' className="opacity-10 object-contain"/>
+      <img src={uriFromSC} alt='ad_from_smart_contract' className="object-contain min-h-[60vh]"/>
     </div>
   )
 }

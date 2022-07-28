@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReturnButton from './ReturnButton'
 import { ethers } from 'ethers';
 import EASLOGOSIMPLE from '../../assets/EASLogoSimple.png';
@@ -40,10 +40,6 @@ const Modal = ({setIsModal, account, setAccount, adName, setAdName, adURI, setAd
             e.preventDefault();
             setError(true);
         }
-        //Send File to IPFS
-        //Get Uri Back from IPFS
-        //Save AdUri to state
-        //start smartContractFunction from useEffect change in adURI or another way
     }
 //===================================================//
 //==================IPFS SUBMISSION==================//
@@ -53,13 +49,24 @@ const Modal = ({setIsModal, account, setAccount, adName, setAdName, adURI, setAd
         const { cid } = await ipfs.add({ path: '--only-hash', content: file });
         const cidString = cid.toString();
         console.log("Added File: ", cid.toString())
-        setUrlArr(cidString);   
-        console.log(urlArr);    
+        setUrlArr(`https://ipfs.io/ipfs/${cidString}`);//<--- CID is now saved to state
     };
-//===================================================//
-    const smartContractFunction = () => {
-        console.log(urlArr);
+    console.log(urlArr);
+    
+//========AD-UPLOAD ---- SMART CONTRACT FUNCTION==========//
+    const ABI = ["function receiveAdPayment(string memory _currentAdName, string memory _currentURI, string memory _currentHyperlink) payable public"]
+    const smartContractFunction = async () => {
+        console.log(account[0]);
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const contract = new ethers.Contract('0x0c4CF9Cb0fC19512Def68b898d4f5Ed491e94DA8', ABI, provider.getSigner());
+        console.log(contract.interface);
+        await contract.receiveAdPayment(adName, urlArr, hyperlink, { value: ethers.utils.parseUnits("0.1", "ether")});
     }
+
+    useEffect(() => {
+      smartContractFunction();      
+    }, [urlArr])
+    
 
   return (
     <>  
@@ -100,7 +107,7 @@ const Modal = ({setIsModal, account, setAccount, adName, setAdName, adURI, setAd
                 <div className='text-[12px] text-gray'>* File types: .png, .jpeg, .gif</div>
                 <div className='text-[12px] text-gray'>* Recommended resolution: ~530 x 560</div>
                 <div className='text-[12px] text-gray'>Stored on IPFS and referenced by Smart Contract</div>
-                <input className='bg-black text-white border-[1px] border-white hover:bg-[#161616] text-[15px] mb-1 flex-grow'
+                <input className='bg-black text-white border-[1px] border-white hover:bg-[#161616] text-[13px] mb-1 flex-grow'
                        type="file"
                        onChange={(e: any) => setFile(e.target.files[0])}/>
                 <div className='text-[15px] pb-1'>

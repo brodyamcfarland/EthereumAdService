@@ -48,8 +48,12 @@ const Ad = ({account, setAccount, adName, setAdName, adURI, setAdURI, hyperlink,
       <div className="bg-gradient-to-b from-purple to-black relative m-auto items-center justify-center border border-white
                       min-h-[70vh] mt-1 mb-3 rounded-xl shadow-xl max-h-[80vh]
                       xxl:max-w-[25vw] xl:max-w-[40vw] lg:max-w-[50vw] md:max-w-[60vw] sm:max-w-[100vw] xsm:max-w-[100vw]">
-          <AdHeader/>
-          <AdPlayer/>
+          <AdHeader
+            contract={contract}
+          />
+          <AdPlayer
+            contract={contract}
+          />
           <AdFooter
             setIsModal={setIsModal}
           />
